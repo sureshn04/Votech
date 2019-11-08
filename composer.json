@@ -1,0 +1,27 @@
+{
+    "name": "localhost/election.local",
+    "description":" ",
+    "authors": [
+        {
+            "name": "suresh-44",
+            "email": "sureshsunsuri@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+          "Votech\\": "src/classes"
+        },
+        "files": [
+          "includes/define.php",       
+          "includes/votechDB.php",       
+          "logs/logger.php"
+        ]
+
+      },
+    "require": {
+        "php": ">=7.2",
+        "ext-mysqli": "*",
+        "ext-json": "*",
+        "monolog/monolog": "^2.0"
+    }
+}

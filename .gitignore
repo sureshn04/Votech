@@ -1,0 +1,6 @@
+/vendore
+/composer.lock
+/logs/error.log
+/logs/info.log
+/logs/notice.log
+/logs/warn.log

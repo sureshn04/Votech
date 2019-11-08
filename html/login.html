@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Login | Votech</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <title>Votech</title>
+</head>
+
+<body>
+  <header>
+    <nav class="grey darken-4">
+      <div class="nav-wrapper container">
+        <a href="/" class="brand-logo">Votech</a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href="/about">About</a></li>
+          <li><a href="/login">login</a></li>
+        </ul>
+      </div>
+      <ul class="sidenav" id="mobile-demo">
+        <li><a href="sass.html">Sass</a></li>
+        <li><a href="badges.html">Components</a></li>
+        <li><a href="collapsible.html">Javascript</a></li>
+        <li><a href="mobile.html">Mobile</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="login" class="container">
+    <div class="row card hoverable">
+      <div class="card-content ">
+        <h4 class="center black-text">Votech</h4>
+        <form class="row s12">
+          <div class="input-field col s12">
+            <input id="last_name" type="text" class="validate">
+            <label for="last_name">Username</label>
+          </div>
+          <div class="input-field col s12">
+            <input id="last_name" type="text" class="validate">
+            <label for="last_name">Password</label>
+          </div>
+          <div class="col s12">
+            <!-- <p><label><input type="checkbox"></label></p> -->
+          </div>
+          <div class="col s12 center login-btn">
+            <button type="button" class="btn btn-large waves-effect waves-light grey darken-3">Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var elems = document.querySelectorAll('.sidenav');
+      var instances = M.Sidenav.init(elems);
+    });
+  </script>
+</body>
+
+</html>

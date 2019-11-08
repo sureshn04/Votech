@@ -1,0 +1,78 @@
+a.brand-logo {
+  font-size: 1.5rem;
+}
+
+.mt {
+  margin-top: 1px;
+}
+
+.mt-2 {
+  margin-top: 4px;
+}
+
+.mt-3 {
+  margin-top: 10px;
+}
+
+.mt-4 {
+  margin-top: 15px;
+}
+
+.mt-5 {
+  margin-top: 20px;
+}
+
+.mt-6 {
+  margin-top: 25px;
+}
+
+#main .row {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  top: 25vh;
+  position: relative;
+}
+
+#login.container {
+  margin: 100px auto;
+  width: 32%;
+}
+
+@media(max-width: 952px) {
+  #login.container {
+    width: 60%;
+  }
+}
+
+@media(max-width: 475px) {
+  #login.container {
+    width: 80%;
+  }
+}
+
+.login-btn .btn {
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.login-btn .btn:hover {
+  color: #424242;
+  background-color: #fff !important;
+  border: none;
+}
+
+.login-btn .btn:active {
+  border: 1px solid #424242;
+  background-color: #212121 !important;
+  color: #fff;
+}
+ /* label focus color */
+#login .input-field input[type=text]:focus + label {
+  color: #000 !important;
+}
+/* label underline focus color */
+#login .input-field input[type=text]:focus {
+  border-bottom: 1px solid #000 !important;
+  box-shadow: 0 1px 0 0 #000 !important;
+}
