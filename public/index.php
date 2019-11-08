@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__.'/../vendor/autoload.php';
-
+include(__DIR__.'/../includes/session.php');
 
 $DB = votechDB::getConnection();
 // echo phpinfo();

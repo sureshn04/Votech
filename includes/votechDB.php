@@ -133,13 +133,14 @@ class votechDB {
              $sql .= " LIMIT $limit";
 
         }
-        $result = $this->dbCon->query($sql);
+        
+        $result = $this->conn->query($sql);
         return $result;
 
     }  
 
     public function query($sql){
-    $result = $this->dbCon->query($sql);
+    $result = $this->conn->query($sql);
     return $result;
     }
 

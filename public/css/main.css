@@ -57,9 +57,10 @@ a.brand-logo {
 }
 
 .login-btn .btn:hover {
-  color: #424242;
-  background-color: #fff !important;
+  color: #cacaca;
+  background-color: #272729 !important;
   border: none;
+  z-index: 2;
 }
 
 .login-btn .btn:active {
