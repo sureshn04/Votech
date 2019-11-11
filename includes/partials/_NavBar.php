@@ -6,7 +6,17 @@
         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <!-- <li><a href="/">Results</a></li> -->
-          <li><a href="/login.php">login</a></li>
+          <?php
+
+            if(isset($_SESSION['role'])) {
+              echo '<li><a href="#">'.$_SESSION["role"] .'</a></li>';
+              echo '<li><a href="/logout.php">logout</a></li>';
+            } else {
+              echo '<li><a href="/login.php">login</a></li>';
+            }
+          ?>
+
+          
         </ul>
       </div>
       <ul class="sidenav" id="mobile-demo">

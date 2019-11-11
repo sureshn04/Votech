@@ -1,6 +1,6 @@
 <?php
   require_once __DIR__.'/../vendor/autoload.php';
-
+  $logger = Logger::getLogger();
   session_start();
   $error = "";
   if(isset($_POST['submit']))
@@ -32,7 +32,8 @@
       }
 
       if($role != null){
-
+        
+        $logger->pushToInfo($role);
         $conn = votechDB::getConnection();
 
         // TODO check if the $result is present or false
@@ -46,16 +47,27 @@
 
           $row = $conn->row($result);//Array ( [0] => 1000 [1] => admin )
           $_SESSION['role'] = $role;
-          $_SESSION['_id'] = $row[0];       
-          header("location: index.php");
+          $_SESSION['_id'] = $row[0]; 
+
+          switch($role){
+            case 'admin': header("location: admin.php");
+                          break;
+            case 'party': header("location: party.php");
+                          break;
+            case 'voter': header("location: admin.php");
+                          break;
+            default: header("location: index.php");                            
+          }      
+          // header("location: index.php");
         }
           
       } else {
         $error = "Invalid username";
       }
     }
-
+    $logger->pushToError($error);
     echo $error;
+
     // TODO: deslay the errors inside the container
   }
 

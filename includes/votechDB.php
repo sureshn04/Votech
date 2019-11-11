@@ -32,12 +32,12 @@ class votechDB {
   }
 
   public function insert($table, $values){
-    $sql = "INSERT INTO $table SET";
+    $sql = "INSERT INTO $table SET ";
     $c=0;
     if(!empty($values)){
      foreach($values as $key=>$val){
          if($c==0){
-             $sql .= "$key=".htmlentities($val, ENT_QUOTES)."'";
+             $sql .= "$key='".htmlentities($val, ENT_QUOTES)."'";
          }else{
              $sql .= ", $key='".htmlentities($val, ENT_QUOTES)."'";
          }
@@ -46,7 +46,8 @@ class votechDB {
     }else{
     return false;
     }
-    $this->conn->query($sql) or die('ERROR'. mysqli_error($this->conn));
+    echo $sql;
+    $this->conn->query($sql) or die('ERROR '. mysqli_error($this->conn));
     return mysqli_insert_id($this->conn);
   }
 

@@ -3,10 +3,8 @@ CREATE TABLE admin (
     name VARCHAR(10) NOT NULL,
     password VARCHAR(10) NOT NULL
 );
-ALTER TABLE voter AUTO_INCREMENT=4000;
+ALTER TABLE party AUTO_INCREMENT=2000;
 
-insert into admin (name, password)  values ('admin', '1234');
-select * from admin;
 
 -- PARTY
 CREATE TABLE party (  
@@ -52,4 +50,15 @@ CREATE TABLE result(
 
 desc candidate;
 
-/*INSERT */
+/*INSERT VAL*/
+insert into party (name, password, total_candidates)  values ('KGP', '1234', 5);
+insert into party (name, password, total_candidates)  values ('KGP', '1234', 5);
+select * from party;
+
+-- Area value
+insert into area (name, total_voters) values ('Mysore', 3);
+insert into area (name, total_voters) values ('Mandya', 5);
+select * from area;
+
+SELECT * FROM admin WHERE password='1234';
+SELECT id,name FROM admin WHERE password='1234' AND name='1000';

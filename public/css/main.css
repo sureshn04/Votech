@@ -69,11 +69,27 @@ a.brand-logo {
   color: #fff;
 }
  /* label focus color */
-#login .input-field input[type=text]:focus + label {
+#login .input-field input:focus + label {
   color: #000 !important;
 }
 /* label underline focus color */
-#login .input-field input[type=text]:focus {
+#login .input-field input:focus {
   border-bottom: 1px solid #000 !important;
   box-shadow: 0 1px 0 0 #000 !important;
+}
+
+
+/* Modal Edit */
+.modal-content .modal_table .modal_tr td{
+  padding: 0;
+}
+
+.modal-content .modal_table .modal_tr td  input[type="text"]{
+  margin : 0;
+  border-bottom: none;
+  background-color: #d7f4ffa4;
+}
+
+.material-icons {
+  padding: 0 10px 0 0;
 }

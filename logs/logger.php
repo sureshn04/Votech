@@ -16,7 +16,7 @@ class Logger
   private function __construct()
   {
     try {
-      $this->monoLogger = new \Monolog\Logger("OracularApp Logger");
+      $this->monoLogger = new \Monolog\Logger("Votech");
       
       $this->monoLogger->pushHandler(new StreamHandler(self::DEBUG_LOG_FILE, \Monolog\Logger::DEBUG));
 

@@ -8,7 +8,7 @@ session_start();
 $_id = $_SESSION['_id'];
 $table = $_SESSION['role'];
 
-$result = $conn->select($table, array('id', 'name'), array('id'=>$_id));
+$result = $conn->select($table, '*', array('id'=>$_id));
 
 if($result->num_rows == 0){
 
