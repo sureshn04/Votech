@@ -7,9 +7,9 @@
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <!-- <li><a href="/">Results</a></li> -->
           <?php
-
+            // echo $_SESSION['role'];
             if(isset($_SESSION['role'])) {
-              echo '<li><a href="#">'.$_SESSION["role"] .'</a></li>';
+              echo '<li><a href="/'.$_SESSION['role'].'.php">'.$_SESSION["name"] .'</a></li>';
               echo '<li><a href="/logout.php">logout</a></li>';
             } else {
               echo '<li><a href="/login.php">login</a></li>';

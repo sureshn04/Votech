@@ -54,7 +54,7 @@
                           break;
             case 'party': header("location: party.php");
                           break;
-            case 'voter': header("location: admin.php");
+            case 'voter': header("location: voter.php");
                           break;
             default: header("location: index.php");                            
           }      

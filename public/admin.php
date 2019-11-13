@@ -2,9 +2,9 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../includes/session.php';
-
+session_start();
 $conn = votechDB::getConnection();
-
+$query = $conn->select('admin', '*', array('id' => $_SESSION['_id']));
 ?>
 
 <!DOCTYPE html>
@@ -64,25 +64,26 @@ $conn = votechDB::getConnection();
       while ($obj = $result->fetch_object()) {
         $update = '
         <div id="update' . $obj->id . '" class="modal">
-          <form method="POST" action="/update.php">
+          <form method="POST" action="/admin.php">
             <div class="modal-content">
             <h4>Edit the changes</h4>
-              <table class="modal_table">
-                <tbody>
-                  <input type="hidden" name="id" value="'.$obj->id.'"/>
-                  <tr class="modal_tr">
-                    <td>Name:</td>
-                    <td><input type="text" name="name" value="' . $obj->name . '"/></td>
-                  </tr>
-                  <tr class="modal_tr">
-                    <td>Total No of candidate:</td>
-                    <td><input type="number" name="total_candidate" value="' . $obj->total_candidates . '"/></td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="modal-footer">
-                <button type="submit" class="modal-close waves-effect waves-green btn-flat">Agree</button>
-              </div> 
+            <table class="modal_table">
+            <tbody>
+              <input type="hidden" name="id" value="'.$obj->id.'"/>
+              <tr class="modal_tr">
+                <td>Name:</td>
+                <td><input type="text" name="name" value="' . $obj->name . '"/></td>
+              </tr>
+              <tr class="modal_tr">
+                <td>Total No of candidate:</td>
+                <td><input type="number" disabled id="disabled" name="total_candidate" value="' . $obj->total_candidates . '"/></td>
+              </tr>
+            </tbody>
+
+          </table>
+          <div class="modal-footer">
+          <button type="submit" name="update" class="btn  waves-effect waves-light green darken-3">Submit</button>
+        </div>
           </form>
         </div>
           
@@ -95,7 +96,7 @@ $conn = votechDB::getConnection();
               <p>You really want to delete ?</p>
           </div>
           <div class="modal-footer">
-            <a href="/delete.php?id='.$obj->id.'" type="sumbit" class="modal-close waves-effect red white-text waves-green btn-flat"> <i class="material-icons">delete_forever</i>Delete</a>
+            <a href="/admin.php?id='.$obj->id.'" type="sumbit" class="modal-close waves-effect red white-text waves-green btn-flat"> <i class="material-icons">delete_forever</i>Delete</a>
           </div> 
         </div>';
 
@@ -188,7 +189,7 @@ $conn = votechDB::getConnection();
       );
 
       $id = $conn->insert('voter',$values);
-      echo 'voter is created'.$id;
+      print_r('\nvoter is created'.$id);
   }
 
   if(isset($_POST['party'])){
@@ -204,4 +205,30 @@ $conn = votechDB::getConnection();
 
   }
 
+  if(isset($_POST['update'])){
+    $values = array(
+      'name' => $_POST['name']
+    );
+    $condition = array(
+      'id' => $_POST['id']
+    );
+
+    $result = $conn->update('party', $values, $condition);
+    print_r($result);
+  }
+
+  if(isset($_GET['id'])){
+    $value = array(
+      'id' => $_GET['id']
+    );
+
+    $result = $conn->delete('party', $value);
+
+    if($result){
+      // header("Refresh:0");
+    } else {
+      echo $result;
+    }
+  }
+  
 ?>  

@@ -46,7 +46,7 @@ class votechDB {
     }else{
     return false;
     }
-    echo $sql;
+    // echo $sql;
     $this->conn->query($sql) or die('ERROR '. mysqli_error($this->conn));
     return mysqli_insert_id($this->conn);
   }
@@ -77,6 +77,7 @@ class votechDB {
         }else{
           return false;
         }
+        echo $sql;
         $result = $this->conn->query($sql) or die('ERROR'.mysqli_error($this->conn));
         return $result;
      }
