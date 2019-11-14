@@ -77,8 +77,9 @@ class votechDB {
         }else{
           return false;
         }
-        echo $sql;
+        // echo $sql;
         $result = $this->conn->query($sql) or die('ERROR'.mysqli_error($this->conn));
+
         return $result;
      }
 

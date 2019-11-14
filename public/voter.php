@@ -45,20 +45,15 @@
                     <td>'.$obj->partyName.'</td>
                     <td>'.$obj->name.'</td>
                     <td><label>
-                    <input class="with-gap" name="vote" type="radio" value="'.$obj->id.'" />
+                    <input class="with-gap" name="canId" type="radio" value="'.$obj->id.'" />
                     <span>Vote</span>
-                  </label></td>
+                  </label>
+                    <input name="areaId" type="hidden" value="'.$obj->area_id.'"/>
+                  </td>
                   </tr>';
               }
               ?>
-              <tr>  
-                <td>BJP</td>
-                <td>Sommana</td>
-                <td>
-
-                </td>
-              </tr>
-
+            
               <?php
             } else {
               echo 'session is not set';
@@ -68,12 +63,31 @@
       </table>
     </div>
     <div class="modal-footer">
+      
       <button type="submit" name="vote" class="modal-close waves-effect waves-green btn-flat">Agree</button>
     </div>
   </form>
   </div>
   <?php 
+    if(isset($_POST['vote'])){
+      $canId = $_POST['canId'];
+      $areaId = $_POST['areaId'];
 
+      $result = $conn->query('select no_of_votes from result where cand_id = '.$canId.' AND area_id = '.$areaId);
+      
+      $obj = $result->fetch_object();
+      $totalVotes = $obj->no_of_votes;
+      
+      $result = $conn->update('result', array('no_of_votes' => ($totalVotes + 1)), array('cand_id'=> $canId, 'area_id' => $areaId));
+
+      if($result){
+        echo "you successfully voted :)";
+      } else {
+        die('ERROR unable to update');
+      }
+
+
+    }
   ?>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script>

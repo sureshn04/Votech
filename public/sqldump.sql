@@ -3,7 +3,7 @@ CREATE TABLE admin (
     name VARCHAR(10) NOT NULL,
     password VARCHAR(10) NOT NULL
 );
-ALTER TABLE party AUTO_INCREMENT=2000;
+ALTER TABLE candidate AUTO_INCREMENT=3000;
 
 
 -- PARTY
@@ -43,9 +43,9 @@ CREATE TABLE voter(
 CREATE TABLE result(
 	no_of_votes INT(10),
     area_id INT,
-    candidate_id INT,
+    cand_id INT,
     foreign key (area_id) references area(id),
-    foreign key (candidate_id) references candidate(id)
+    foreign key (cand_id) references candidate(id)
 );
 
 desc candidate;
@@ -54,11 +54,41 @@ desc candidate;
 insert into party (name, password, total_candidates)  values ('KGP', '1234', 5);
 insert into party (name, password, total_candidates)  values ('KGP', '1234', 5);
 select * from party;
+delete from party where id = '2003';
 
 -- Area value
-insert into area (name, total_voters) values ('Mysore', 3);
-insert into area (name, total_voters) values ('Mandya', 5);
+insert into area (name, total_voters) values ('Mysore', 1);
+insert into area (name, total_voters) values ('Mandya', 1);
 select * from area;
 
 SELECT * FROM admin WHERE password='1234';
 SELECT id,name FROM admin WHERE password='1234' AND name='1000';
+
+-- Voter
+insert into voter (name, password, age, phone_no, area_id) values ('arjun', '123', 20, 1234567890, 1); 
+select * from voter;
+
+-- Candidate
+alter table candidate add constraint party_id  FOREIGN KEY (party_id) references party(id);
+insert into candidate (name, password, area_id, party_id) values ('sommana', '123', 5550, 2000);
+insert into candidate (name, password, area_id, party_id) values ('suraj', '123', 5551, 2000);
+insert into candidate (name, password, area_id, party_id) values ('ravi', '123', 5550, 2001);
+insert into candidate (name, password, area_id, party_id) values ('mahesh', '123', 5551, 2001);
+select * from candidate;
+
+-- Result
+desc result;
+insert into result (area_id, cand_id, no_of_votes) values (5550, 3000, 0);
+insert into result (area_id, cand_id, no_of_votes) values (5550, 3004, 0);
+insert into result (area_id, cand_id, no_of_votes) values (5551, 3003, 0);
+insert into result (area_id, cand_id, no_of_votes) values (5551, 3005, 0);
+
+
+-- QUERIES
+select name, party_id from candidate where (area_id = 102) OR (1=1);
+
+-- select c.id,c.name,c.area_id, c.party_id, party.name as partyName from candidate c join party on c.party_id = party.id AND v.id = 3000;
+select c.id,c.name,c.area_id, c.party_id, party.name as partyName from ((candidate c inner join party on c.party_id = party.id) inner join voter 
+on c.area_id = voter.area_id AND voter.id = 4000);
+
+select * from result where candId = 3000 and area_id = 5550;
