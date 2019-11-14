@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../includes/session.php';
-session_start();
+// session_start();     
 $conn = votechDB::getConnection();
 $query = $conn->select('admin', '*', array('id' => $_SESSION['_id']));
 ?>
@@ -231,4 +231,4 @@ $query = $conn->select('admin', '*', array('id' => $_SESSION['_id']));
     }
   }
   
-?>  
+?> 

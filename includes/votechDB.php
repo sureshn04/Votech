@@ -147,7 +147,7 @@ class votechDB {
     }
 
     public function result($result){
-    $row = $result->fetch_array();
+    $row = $result->fetch_object();
     $result->close();
     return $row;
     }

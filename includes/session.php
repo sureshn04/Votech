@@ -2,29 +2,29 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-// $conn = votechDB::getConnection();
+$conn = votechDB::getConnection();
   
-// session_start();
-// $_id = $_SESSION['_id'];
-// $table = $_SESSION['role'];
+session_start();
+$_id = $_SESSION['_id'];
+$table = $_SESSION['role'];
 
-// $result = $conn->select($table, '*', array('id'=>$_id));
-// // echo $result->num_rows;
-// if($result->num_rows == 0){
+$result = $conn->select($table, '*', array('id'=>$_id));
+// echo $result->num_rows;
+if($result->num_rows == 0){
 
-//   header("location: login.php");
-// } else {
-//   $obj = $result->fetch_object();
+  header("location: login.php");
+} else {
+  $obj = $result->fetch_object();
 
-//   $_SESSION['name'] = $obj->name;
-// } 
+  $_SESSION['name'] = $obj->name;
+} 
 
-class session {
+// class session {
 
-  function __construct($id) {
+//   function __construct($id) {
     
-  }
-}
+//   }
+// }
 
  
 
