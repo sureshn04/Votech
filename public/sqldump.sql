@@ -3,7 +3,7 @@ CREATE TABLE admin (
     name VARCHAR(10) NOT NULL,
     password VARCHAR(10) NOT NULL
 );
-ALTER TABLE candidate AUTO_INCREMENT=3000;
+ALTER TABLE result AUTO_INCREMENT=3000;
 
 
 -- PARTY
@@ -83,7 +83,7 @@ insert into result (area_id, cand_id, no_of_votes) values (5550, 3004, 0);
 insert into result (area_id, cand_id, no_of_votes) values (5551, 3003, 0);
 insert into result (area_id, cand_id, no_of_votes) values (5551, 3005, 0);
 
-
+select * from result;
 -- QUERIES
 select name, party_id from candidate where (area_id = 102) OR (1=1);
 
@@ -91,4 +91,10 @@ select name, party_id from candidate where (area_id = 102) OR (1=1);
 select c.id,c.name,c.area_id, c.party_id, party.name as partyName from ((candidate c inner join party on c.party_id = party.id) inner join voter 
 on c.area_id = voter.area_id AND voter.id = 4000);
 
-select * from result where candId = 3000 and area_id = 5550;
+select * from result where cand_id = 3000 and area_id = 5550;
+UPDATE result SET no_of_votes='1' WHERE can_id='3000' AND area_id='5550';
+
+-- Qurey for result table
+select party.name as partName, candidate.name as candName, area.name as areaName, area.total_voters, result.no_of_votes from result INNER JOIN candidate ON result.cand_id=candidate.id INNER JOIN party ON party.id = candidate.party_id INNER JOIN area ON result.area_id = area.id; 
+
+DELIMITER $$ ;

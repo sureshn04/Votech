@@ -74,8 +74,9 @@
       $areaId = $_POST['areaId'];
 
       $result = $conn->query('select no_of_votes from result where cand_id = '.$canId.' AND area_id = '.$areaId);
-      
+
       $obj = $result->fetch_object();
+
       $totalVotes = $obj->no_of_votes;
       
       $result = $conn->update('result', array('no_of_votes' => ($totalVotes + 1)), array('cand_id'=> $canId, 'area_id' => $areaId));

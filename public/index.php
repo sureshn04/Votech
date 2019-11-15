@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__.'/../vendor/autoload.php';
-
+$conn = votechDB::getConnection();
 ?>
 
 <!DOCTYPE html>
@@ -26,27 +26,39 @@ require_once __DIR__.'/../vendor/autoload.php';
                     <thead> 
                       <tr>
                           <th>Party Name</th>
-                          <th>Total Number of candidate</th>
-                          <th>Total Wins</th>
+                          <th>Candidate Name</th>
+                          <th>Area Name</th>
+                          <th>Total Voters</th>
+                          <th>No of Votes</th>
                       </tr>
                     </thead>
             
                     <tbody>
-                      <tr>
-                        <td>Alvin</td>
-                        <td>50</td>
-                        <td>23</td>
-                      </tr>
-                      <tr>
-                        <td>Alan</td>
-                        <td>50</td>
-                        <td>20</td>
-                      </tr>
-                      <tr>
+                      <?php
+                        $sql = 'select party.name as partyName, candidate.name as candName, area.name as areaName, area.total_voters, result.no_of_votes from result INNER JOIN candidate ON result.cand_id=candidate.id INNER JOIN party ON party.id = candidate.party_id INNER JOIN area ON result.area_id = area.id; ';
+                        $result = $conn->query($sql);
+
+                        while($obj = $result->fetch_object())
+                        {
+                          $html = '
+                            <tr>
+                              <td>'.$obj->partyName.'</td>
+                              <td>'.$obj->candName.'</td>
+                              <td>'.$obj->areaName.'</td>
+                              <td>'.$obj->total_voters.'</td>
+                              <td>'.$obj->no_of_votes.'</td>
+                            </tr>
+                          ';
+
+                          echo $html;
+                        }
+
+                      ?>
+                      <!-- <tr>
                         <td>Jonathan</td>
                         <td>10</td>
                         <td>7</td>
-                      </tr>
+                      </tr> -->
                     </tbody>
                   </table>
 
