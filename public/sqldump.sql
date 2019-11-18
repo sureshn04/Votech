@@ -97,4 +97,9 @@ UPDATE result SET no_of_votes='1' WHERE can_id='3000' AND area_id='5550';
 -- Qurey for result table
 select party.name as partName, candidate.name as candName, area.name as areaName, area.total_voters, result.no_of_votes from result INNER JOIN candidate ON result.cand_id=candidate.id INNER JOIN party ON party.id = candidate.party_id INNER JOIN area ON result.area_id = area.id; 
 
+-- stored procedure
 DELIMITER $$ ;
+create procedure display_result()
+select party.name as partName, candidate.name as candName, area.name as areaName, area.total_voters, result.no_of_votes from result INNER JOIN candidate ON result.cand_id=candidate.id INNER JOIN party ON party.id = candidate.party_id INNER JOIN area ON result.area_id = area.id; 
+
+call display_result();

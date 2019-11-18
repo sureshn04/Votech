@@ -57,7 +57,7 @@ $conn = votechDB::getConnection();
                       <!-- <tr>
                         <td>Jonathan</td>
                         <td>10</td>
-                        <td>7</td>
+                        <td>7</td>  
                       </tr> -->
                     </tbody>
                   </table>
