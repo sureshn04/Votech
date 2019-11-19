@@ -35,7 +35,7 @@ $conn = votechDB::getConnection();
             
                     <tbody>
                       <?php
-                        $sql = 'select party.name as partyName, candidate.name as candName, area.name as areaName, area.total_voters, result.no_of_votes from result INNER JOIN candidate ON result.cand_id=candidate.id INNER JOIN party ON party.id = candidate.party_id INNER JOIN area ON result.area_id = area.id; ';
+                        $sql = 'call display_result();';
                         $result = $conn->query($sql);
 
                         while($obj = $result->fetch_object())
