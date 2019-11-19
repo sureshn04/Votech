@@ -1,8 +1,17 @@
 <?php
- require_once __DIR__.'/../vendor/autoload.php';
- require_once __DIR__.'/../includes/session.php';
+  session_start();
+  error_reporting( E_ALL );
+  ini_set( "display_errors", 1 );
 
- $db = votechDB::getConnection();
+  if($_SESSION['role'] == 'voter'){
+
+  require_once __DIR__.'/../vendor/autoload.php';
+
+  $conn = votechDB::getConnection();
+  $result = $conn->select("voter", array('flag'), array('id'=> $_SESSION['_id']));
+  $voter = $result->fetch_object();
+  $result->close();
+ 
 ?>
 
 <!DOCTYPE html>
@@ -18,9 +27,18 @@
   </div>
   <!-- Modal Structure -->
   <div id="vote" class="modal">
+  <?php
+       
+    if(!$voter->flag){
+
+    
+  ?>
   <form action="/voter.php" method="POST">
     <div class="modal-content">
+     
       <h4>Vote for your candidate</h4>
+
+  
       <table class="stripped">
         <thead>
           <td>Party Name</td>
@@ -29,16 +47,14 @@
         </thead>
         <tbody>
           <?php
-          
+       
             if(isset($_SESSION['_id'])){
               $voterId = $_SESSION['_id'];
+              // TODO: create a stored procedure for sql query;
               $sql = 'select c.id,c.name,c.area_id, c.party_id, party.name as partyName from ((candidate c inner join party on c.party_id = party.id) inner join voter 
               on c.area_id = voter.area_id AND voter.id = '.$voterId.');';
               $result =  $conn->query($sql);
-              ?>
               
-           
-              <?php
               while($obj = $result->fetch_object()){
                 echo '
                   <tr>
@@ -52,9 +68,7 @@
                   </td>
                   </tr>';
               }
-              ?>
-            
-              <?php
+             
             } else {
               echo 'session is not set';
             }
@@ -67,11 +81,19 @@
       <button type="submit" name="vote" class="modal-close waves-effect waves-green btn-flat">Agree</button>
     </div>
   </form>
+  <?php
+    }
+    else {
+      echo '<h1>You Already Voted</h1>';
+    }
+  ?>
   </div>
   <?php 
     if(isset($_POST['vote'])){
       $canId = $_POST['canId'];
       $areaId = $_POST['areaId'];
+      
+      $res = $conn->update('voter',array('flag'=>1), array('id'=>$_SESSION['_id']));
 
       $result = $conn->query('select no_of_votes from result where cand_id = '.$canId.' AND area_id = '.$areaId);
 
@@ -102,3 +124,9 @@
   </script>
 </body>
 </html>
+
+<?php
+  } else {
+    header("location: login.php");
+  }
+?>

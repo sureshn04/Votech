@@ -1,10 +1,11 @@
 <?php
-
+session_start(); 
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../includes/session.php';
-// session_start();     
+  
 $conn = votechDB::getConnection();
-$query = $conn->select('admin', '*', array('id' => $_SESSION['_id']));
+
+if($_SESSION['role'] == 'admin'){
+
 ?>
 
 <!DOCTYPE html>
@@ -230,5 +231,9 @@ $query = $conn->select('admin', '*', array('id' => $_SESSION['_id']));
       echo $result;
     }
   }
-  
+}
+
+else {
+  header("location: login.php");
+}
 ?> 

@@ -1,7 +1,8 @@
 <?php
+  session_start();
   require_once __DIR__.'/../vendor/autoload.php';
   $logger = Logger::getLogger();
-  session_start();
+
   $error = "";
   if(isset($_POST['submit']))
   {
@@ -32,7 +33,6 @@
       }
 
       if($role != null){
-        
         $logger->pushToInfo($role);
         $conn = votechDB::getConnection();
 
@@ -48,7 +48,7 @@
           $row = $conn->row($result);//Array ( [0] => 1000 [1] => admin )
           $_SESSION['role'] = $role;
           $_SESSION['_id'] = $row[0]; 
-
+          $_SESSION['name'] = $row[1];
           switch($role){
             case 'admin': header("location: admin.php");
                           break;
