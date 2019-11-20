@@ -66,7 +66,8 @@ SELECT id,name FROM admin WHERE password='1234' AND name='1000';
 
 -- Voter
 insert into voter (name, password, age, phone_no, area_id) values ('arjun', '123', 20, 1234567890, 1); 
-select * from voter;
+alter table voter add flag int;
+select * from area;
 
 -- Candidate
 alter table candidate add constraint party_id  FOREIGN KEY (party_id) references party(id);
@@ -100,6 +101,23 @@ select party.name as partName, candidate.name as candName, area.name as areaName
 -- stored procedure
 DELIMITER $$ ;
 create procedure display_result()
-select party.name as partName, candidate.name as candName, area.name as areaName, area.total_voters, result.no_of_votes from result INNER JOIN candidate ON result.cand_id=candidate.id INNER JOIN party ON party.id = candidate.party_id INNER JOIN area ON result.area_id = area.id; 
+select party.name as partyName, candidate.name as candName, area.name as areaName, area.total_voters, result.no_of_votes from result INNER JOIN candidate ON result.cand_id=candidate.id INNER JOIN party ON party.id = candidate.party_id INNER JOIN area ON result.area_id = area.id; 
 
 call display_result();
+
+-- Trigger
+DELIMITER $$
+CREATE 
+	TRIGGER updateTotalVoter AFTER INSERT ON voter 
+    FOR EACH ROW BEGIN
+		
+        UPDATE area 
+        SET total_voters = total_voters + 1
+        WHERE id = NEW.area_id;
+	END;
+$$
+DELIMITER  ; $$
+
+select * from area;
+
+

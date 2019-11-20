@@ -84,7 +84,11 @@
   <?php
     }
     else {
-      echo '<h1>You Already Voted</h1>';
+      
+     
+      echo '<div class="modal-content ">
+        <h4 class="h4 display-4">You Already Voted</h4>
+        </div>';
     }
   ?>
   </div>
