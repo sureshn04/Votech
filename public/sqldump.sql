@@ -118,6 +118,19 @@ CREATE
 $$
 DELIMITER  ; $$
 
-select * from area;
+DELIMITER $$
+CREATE 
+	TRIGGER updateTotalCandidate AFTER INSERT ON candidate 
+    FOR EACH ROW BEGIN
+		
+        UPDATE party 
+        SET total_candidates = total_candidates + 1
+        WHERE id = NEW.party_id;
+	END;
+$$
+DELIMITER  ; $$
+
+select * from party;
 
 
+-- select c.id, c.name, a.name as areaName from candidate c, area a where c.area_id = a.id and c.party_id = 2000; 
