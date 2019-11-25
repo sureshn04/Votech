@@ -32,7 +32,7 @@ CREATE TABLE candidate (
 -- VoTER
 CREATE TABLE voter(
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(15) NOT NULL UNIQUE,
+    name VARCHAR(15) NOT NULL ,
     password VARCHAR(10) NOT NULL,
     age INT,
     phone_no INT(10),

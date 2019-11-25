@@ -87,7 +87,7 @@
       
      
       echo '<div class="modal-content ">
-        <h4 class="h4 display-4">You Already Voted</h4>
+        <h5 class="center red-text display-4" >You Already Voted</h5>
         </div>';
     }
   ?>

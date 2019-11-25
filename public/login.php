@@ -3,7 +3,7 @@
   require_once __DIR__.'/../vendor/autoload.php';
   $logger = Logger::getLogger();
 
-  $error = "";
+  $error = null;
   if(isset($_POST['submit']))
   {
     if (empty($_POST['username'] )|| empty($_POST['password'])){
@@ -66,9 +66,7 @@
       }
     }
     $logger->pushToError($error);
-    echo $error;
-
-    // TODO: deslay the errors inside the container
+    // echo $error;
   }
 
 ?>
@@ -87,6 +85,11 @@
   <?php require_once __DIR__.'/../includes/partials/_NavBar.php'; ?>
 
   <section id="login" class="container">
+  <?php
+    if($error){
+      echo '<h6 class="display-4 red-text text-center">'.$error.'</h6>';
+    }
+   ?>
     <div class="row card hoverable">
       <div class="card-content ">
         <h4 class="center black-text">Votech</h4>

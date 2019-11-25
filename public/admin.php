@@ -1,48 +1,110 @@
 <?php
-session_start(); 
+session_start();
 require_once __DIR__ . '/../vendor/autoload.php';
-  
+
 $conn = votechDB::getConnection();
 
-if($_SESSION['role'] == 'admin'){
+if ($_SESSION['role'] == 'admin') {
+  $message = null;
+  if (isset($_POST['voter'])) {
+    $voterName = $_POST['name'];
+    $votterPwd = $_POST['password'];
+    $votterAge = $_POST['age'];
+    $votterPhone = $_POST['phoneNo'];
+    $votterAreaId = $_POST['area_id'];
 
-?>
+    $values = array(
+      'name' => $voterName,
+      'password' => $votterPwd,
+      'age' => $votterAge,
+      'phone_no' => $votterPhone,
+      'area_id' => $votterAreaId
+    );
 
-<!DOCTYPE html>
-<html lang="en">
+    $id = $conn->insert('voter', $values);
+    $message = 'voter is created with id '.$id;
+  }
 
-<head>
-  <?php
-  require_once __DIR__ . '/../includes/partials/_head.php';
+  if (isset($_POST['party'])) {
+    $partyName = $_POST['partyName'];
+    $partyPwd = $_POST['password'];
+    $values = array(
+      'name' => $partyName,
+      'password' => $partyPwd
+    );
+    $id = $conn->insert('party', $values);
+
+    $message = 'party is created with an id ' . $id;
+  }
+
+  if (isset($_POST['update'])) {
+    $values = array(
+      'name' => $_POST['name']
+    );
+    $condition = array(
+      'id' => $_POST['id']
+    );
+
+    $result = $conn->update('party', $values, $condition);
+    $message = 'Successfully updated the party';
+  }
+
+  if (isset($_GET['id'])) {
+    $value = array(
+      'id' => $_GET['id']
+    );
+
+    $result = $conn->delete('party', $value);
+
+    if ($result) {
+      $message = 'Successfully Deleted the party';
+    } else {
+      $message =  $result;
+    }
+  }
   ?>
-  <title>Votech</title>
-</head>
 
-<body>
-  <?php require_once __DIR__ . '/../includes/partials/_NavBar.php'; ?>
+  <!DOCTYPE html>
+  <html lang="en">
 
-  <div class="container mt-6">
-    <div class="insert ">
-      <a href="#createVoter" class="btn modal-trigger waves-effect waves-light"> <i class="material-icons">person_add0</i> Create Voter</a>
-      <a href="#createParty" class="btn modal-trigger waves-effect waves-light"> <i class="material-icons">group_add</i>Create Party</a>
-    </div>
-    <table class="striped">
-      <thead>
-        <tr>
-          <th>Party Name</th>
-          <th>Total Candidates</th>
-          <th>Action </th>
-        </tr>
-      </thead>
+  <head>
+    <?php
+      require_once __DIR__ . '/../includes/partials/_head.php';
+      ?>
+    <title>Votech</title>
+  </head>
 
-      <tbody>
-        <?php
-        $result = $conn->select('party');
+  <body>
+    <?php require_once __DIR__ . '/../includes/partials/_NavBar.php'; ?>
 
-        if ($result->num_rows > 0) {
+    <div class="container mt-6">
+      <?php 
+        if($message){
+          echo '<h5 class="display-4 blue-text" style="font-size:1.2rem;">'.$message.'</h5>';
+        }
+      ?>
+      
+      <div class="insert ">
+        <a href="#createVoter" class="btn modal-trigger waves-effect waves-light"> <i class="material-icons">person_add0</i> Create Voter</a>
+        <a href="#createParty" class="btn modal-trigger waves-effect waves-light"> <i class="material-icons">group_add</i>Create Party</a>
+      </div>
+      <table class="striped">
+        <thead>
+          <tr>
+            <th>Party Name</th>
+            <th>Total Candidates</th>
+            <th>Action </th>
+          </tr>
+        </thead>
 
-          while ($obj = $result->fetch_object()) {
-            echo '<tr>
+        <tbody>
+          <?php
+            $result = $conn->select('party');
+
+            if ($result->num_rows > 0) {
+
+              while ($obj = $result->fetch_object()) {
+                echo '<tr>
                   <td>' . $obj->name . '</td>
                   <td>' . $obj->total_candidates . '</td>
                   <td>
@@ -50,27 +112,27 @@ if($_SESSION['role'] == 'admin'){
                     <a href="#delete' . $obj->id . '" class="btn center mb red waves-effect modal-trigger waves-light"><i class="material-icons">delete</i> Delete </a>
                   </td>
                 </tr>';
-          }
-        }
-        $result->close();
-        ?>
-      </tbody>
-    </table>
+              }
+            }
+            $result->close();
+            ?>
+        </tbody>
+      </table>
 
-    <?php
-    $result = $conn->select('party');
+      <?php
+        $result = $conn->select('party');
 
-    // echo $result->num_rows ;
-    if ($result->num_rows > 0) {
-      while ($obj = $result->fetch_object()) {
-        $update = '
+        // echo $result->num_rows ;
+        if ($result->num_rows > 0) {
+          while ($obj = $result->fetch_object()) {
+            $update = '
         <div id="update' . $obj->id . '" class="modal">
           <form method="POST" action="/admin.php">
             <div class="modal-content">
             <h4>Edit the changes</h4>
             <table class="modal_table">
             <tbody>
-              <input type="hidden" name="id" value="'.$obj->id.'"/>
+              <input type="hidden" name="id" value="' . $obj->id . '"/>
               <tr class="modal_tr">
                 <td>Name:</td>
                 <td><input type="text" name="name" value="' . $obj->name . '"/></td>
@@ -90,28 +152,28 @@ if($_SESSION['role'] == 'admin'){
           
         </div>';
 
-        $delete = '
+            $delete = '
         <div id="delete' . $obj->id . '" class="modal">
           <div class="modal-content">
             <h4>Are You Sure</h4>
               <p>You really want to delete ?</p>
           </div>
           <div class="modal-footer">
-            <a href="/admin.php?id='.$obj->id.'" type="sumbit" class="modal-close waves-effect red white-text waves-green btn-flat"> <i class="material-icons">delete_forever</i>Delete</a>
+            <a href="/admin.php?id=' . $obj->id . '" type="sumbit" class="modal-close waves-effect red white-text waves-green btn-flat"> <i class="material-icons">delete_forever</i>Delete</a>
           </div> 
         </div>';
 
-        echo $update . '<br/>' . $delete;
-      }
-    }
+            echo $update . '<br/>' . $delete;
+          }
+        }
 
-    $result->close();
-    ?>
-  </div>
-  <div id="createVoter" class="modal">
-    <div class="modal-content">
-      <h4>Voter Details</h4>
-      <form class="row s12" action="/admin.php" method="POST">
+        $result->close();
+        ?>
+    </div>
+    <div id="createVoter" class="modal">
+      <div class="modal-content">
+        <h4>Voter Details</h4>
+        <form class="row s12" action="/admin.php" method="POST">
           <div class="input-field col s12">
             <input id="name" type="text" class="validate" name="name">
             <label for="name">Voter Name</label>
@@ -136,12 +198,12 @@ if($_SESSION['role'] == 'admin'){
             <button type="submit" name="voter" class="btn btn-large waves-effect waves-light grey darken-3">Submit</button>
           </div>
         </form>
+      </div>
     </div>
-  </div>
-  <div id="createParty" class="modal">
-    <div class="modal-content">
-      <h4>Enter Party Details</h4>
-      <form class="row s12" action="/admin.php" method="POST">
+    <div id="createParty" class="modal">
+      <div class="modal-content">
+        <h4>Enter Party Details</h4>
+        <form class="row s12" action="/admin.php" method="POST">
           <div class="input-field col s12">
             <input id="partyname" type="text" class="validate" name="partyName">
             <label for="partyname">Enter the Party Name</label>
@@ -150,90 +212,32 @@ if($_SESSION['role'] == 'admin'){
             <input id="partypwd" type="password" class="validate" name="password">
             <label for="partypwd">Password</label>
           </div>
-         
+
           <div class="col s12 center modal-footer login-btn">
             <button type="submit" name="party" class="btn btn-large waves-effect waves-light grey darken-3">Submit</button>
           </div>
         </form>
+      </div>
     </div>
-  </div>
-  <!-- CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var elems = document.querySelectorAll('.sidenav');
-      var instances = M.Sidenav.init(elems);
+    <!-- CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.sidenav');
+        var instances = M.Sidenav.init(elems);
 
-      var elems = document.querySelectorAll('.modal');
-      var instances = M.Modal.init(elems);
-    });
-  </script>
-</body>
+        var elems = document.querySelectorAll('.modal');
+        var instances = M.Modal.init(elems);
+      });
+    </script>
+  </body>
 
-</html>
+  </html>
 
 
-<?php 
-  if(isset($_POST['voter'])){
-      $voterName = $_POST['name'];
-      $votterPwd = $_POST['password'];
-      $votterAge = $_POST['age'];
-      $votterPhone = $_POST['phoneNo'];
-      $votterAreaId = $_POST['area_id'];
+<?php
 
-      $values = array(
-        'name' => $voterName,
-        'password'=> $votterPwd,
-        'age'=> $votterAge,
-        'phone_no' => $votterPhone,
-        'area_id' => $votterAreaId
-      );
-
-      $id = $conn->insert('voter',$values);
-      print_r('\nvoter is created'.$id);
-  }
-
-  if(isset($_POST['party'])){
-    $partyName = $_POST['partyName'];
-    $partyPwd = $_POST['password'];
-    $values = array(
-      'name' => $partyName,
-      'password' => $partyPwd
-    );
-    $id = $conn->insert('party',$values);
-
-    print_r('\n    party is created '.$id);
-
-  }
-
-  if(isset($_POST['update'])){
-    $values = array(
-      'name' => $_POST['name']
-    );
-    $condition = array(
-      'id' => $_POST['id']
-    );
-
-    $result = $conn->update('party', $values, $condition);
-    print_r($result);
-  }
-
-  if(isset($_GET['id'])){
-    $value = array(
-      'id' => $_GET['id']
-    );
-
-    $result = $conn->delete('party', $value);
-
-    if($result){
-      // header("Refresh:0");
-    } else {
-      echo $result;
-    }
-  }
-}
-
-else {
+} else {
   header("location: login.php");
 }
-?> 
+?>
